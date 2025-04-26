@@ -1,0 +1,23 @@
+{
+  "name": "url-shortner",
+  "version": "1.0.0",
+  "description": "A URL Shortner Web App",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js"
+  },
+  "keywords": [
+    "URL",
+    "Shortner"
+  ],
+  "author": "Lucky Parihar",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^16.5.0",
+    "ejs": "^3.1.10",
+    "express": "^4.21.0",
+    "mongoose": "^8.6.2",
+    "shortid": "^2.2.16"
+  }
+}
