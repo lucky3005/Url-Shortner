@@ -1,5 +1,5 @@
 const shortid = require("shortid");
-const UrlModel = require("../Models/url_model");
+const UrlModel = require("../models/url_model");
 
 async function homeGetRouteController(req, res) {
    return res.render("home");  
