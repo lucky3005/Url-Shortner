@@ -1,9 +1,8 @@
-const shortid = require("shortid"); 
-
+const shortid = require("shortid");
 const UrlModel = require("../Models/url_model");
 
 async function homeGetRouteController(req, res) {
-   return res.render("home");  
+   return res.render("home", { shortUrl: null, error: null });  
 }
 
 async function urlPostRouteHandler(req, res) {
@@ -12,7 +11,7 @@ async function urlPostRouteHandler(req, res) {
 
     // Validate RedirectUrl format (simple validation)
     if (!RedirectUrl || !RedirectUrl.startsWith("http")) {
-        return res.status(400).json({ error: "Invalid URL format" });
+        return res.render("home", { shortUrl: null, error: "Invalid URL format. Please enter a valid URL starting with http or https." });
     }
 
     try {
@@ -21,11 +20,11 @@ async function urlPostRouteHandler(req, res) {
             RedirectUrl: RedirectUrl,
         });
 
-        // Return the shortened URL
-        return res.json({ shortUrl: "http://localhost:8000/" + short });
+        // Render the page again with the short URL
+        return res.render("home", { shortUrl: "http://localhost:8000/" + short, error: null });
 
     } catch (error) {
-        return res.status(500).json({ error: "Error: " + error.message });
+        return res.render("home", { shortUrl: null, error: "Something went wrong. Please try again." });
     } 
 }
 

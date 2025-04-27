@@ -4,70 +4,84 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>URL Shortener</title>
+  <style>
+    body {
+      height: 100vh;
+      background: linear-gradient(135deg, #74ebd5, #acb6e5);
+      font-family: 'Poppins', sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin: 0;
+    }
+    .container {
+      background: #ffffff;
+      padding: 30px 40px;
+      border-radius: 12px;
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+      text-align: center;
+      width: 90%;
+      max-width: 400px;
+    }
+    input {
+      flex: 1;
+      padding: 10px 15px;
+      font-size: 16px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      outline: none;
+    }
+    button {
+      padding: 10px 20px;
+      background-color: #4f8ef7;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+    button:hover {
+      background-color: #3c74d1;
+    }
+    #shortenedUrl {
+      margin-top: 20px;
+    }
+    #shortUrlLink {
+      color: #4f8ef7;
+      text-decoration: none;
+      font-weight: bold;
+      word-break: break-word;
+      font-size: 18px;
+    }
+  </style>
 </head>
-<body style="height: 100vh; background: linear-gradient(135deg, #74ebd5, #acb6e5); font-family: 'Poppins', sans-serif; display: flex; justify-content: center; align-items: center; margin: 0;">
 
-  <div style="background: #ffffff; padding: 30px 40px; border-radius: 12px; box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); text-align: center; width: 90%; max-width: 400px;">
-    <h1 style="font-size: 28px; color: #333; margin-bottom: 10px;">URL Shortener</h1>
-    <p style="color: #666; margin-bottom: 20px;">Paste your long URL below to shorten it</p>
+<body>
 
-    <!-- FORM -->
-    <form id="urlForm" style="display: flex; gap: 10px; margin-bottom: 20px;">
-      <input 
-        type="text" 
-        name="RedirectUrl"
-        id="RedirectUrl"
-        placeholder="Enter your long URL here..."
-        style="flex: 1; padding: 10px 15px; font-size: 16px; border: 1px solid #ccc; border-radius: 8px; outline: none;" 
-        required>
-      <button 
-        type="submit"
-        style="padding: 10px 20px; background-color: #4f8ef7; color: #fff; border: none; border-radius: 8px; cursor: pointer; transition: background 0.3s ease;"
-        onmouseover="this.style.backgroundColor='#3c74d1';" 
-        onmouseout="this.style.backgroundColor='#4f8ef7';"
-      >
-        Shorten
-      </button>
-    </form>
-    <!-- FORM ends -->
+<div class="container">
+  <h1 style="font-size: 28px; color: #333; margin-bottom: 10px;">URL Shortener</h1>
+  <p style="color: #666; margin-bottom: 20px;">Paste your long URL below to shorten it</p>
 
-    <!-- PLACE FOR SHORT URL -->
-    <div id="shortenedUrl" style="margin-top: 20px; display: none;">
+  <!-- FORM -->
+  <form action="/" method="POST" style="display: flex; gap: 10px; margin-bottom: 20px;">
+    <input 
+      type="text" 
+      name="RedirectUrl"
+      placeholder="Enter your long URL here..."
+      required
+    >
+    <button type="submit">Shorten</button>
+  </form>
+  <!-- FORM ends -->
+
+  <% if (shortUrl) { %>
+    <div id="shortenedUrl">
       <p style="color: #666; margin-bottom: 10px;">Shortened URL:</p>
-      <a href="#" target="_blank" id="shortUrlLink" style="color: #4f8ef7; text-decoration: none; font-weight: bold; word-break: break-word;">short.url/xyz123</a>
+      <a href="<%= shortUrl %>" target="_blank" id="shortUrlLink"><%= shortUrl %></a>
     </div>
+  <% } %>
 
-  </div>
-
-  <!-- JavaScript to handle form submit -->
-  <script>
-    document.getElementById('urlForm').addEventListener('submit', function(event) {
-      event.preventDefault(); // Stop normal form submission
-
-      const redirectUrl = document.getElementById('RedirectUrl').value;
-
-      // Send POST request to backend
-      fetch('http://localhost:8000', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ RedirectUrl: redirectUrl })
-      })
-      .then(response => response.json())
-      .then(data => {
-        // Assuming your backend returns { shortUrl: "http://localhost:8000/abc123" }
-        const shortUrlLink = document.getElementById('shortUrlLink');
-        shortUrlLink.href = data.shortUrl;
-        shortUrlLink.textContent = data.shortUrl;
-        document.getElementById('shortenedUrl').style.display = 'block';
-      })
-      .catch(error => {
-        console.error('Error:', error);
-        alert('Failed to shorten URL. Please try again.');
-      });
-    });
-  </script>
+</div>
 
 </body>
 </html>
