@@ -20,8 +20,11 @@ async function urlPostRouteHandler(req, res) {
             RedirectUrl: RedirectUrl,
         });
 
+        // Dynamically get base URL (protocol + host)
+        const baseUrl = `${req.protocol}://${req.get('host')}`;
+
         // Render the page again with the short URL
-        return res.render("home", { shortUrl: "http://localhost:8000/" + short, error: null });
+        return res.render("home", { shortUrl: `${baseUrl}/${short}`, error: null });
 
     } catch (error) {
         return res.render("home", { shortUrl: null, error: "Something went wrong. Please try again." });
